@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: gocore-virtualservice
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - gocore-gateway
+  http:
+  - route:
+    - destination:
+        host: gocore-service
