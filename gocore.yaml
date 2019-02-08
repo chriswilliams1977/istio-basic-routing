@@ -1,0 +1,31 @@
+apiVersion: v1 #api version to use
+kind: Service #k8 object type
+metadata:
+  name: gocore-service #name of object
+  labels:
+    app: gocore #label for object referenced via selector
+spec:
+  ports:
+  - port: 8080 #port mapping 8080
+    name: http #supported protocol
+  selector:
+    app: gocore #label to select
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gocore-v1 #pod name
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gocore #label for deployment object
+        version: v1 #version
+    spec:
+      containers:
+      - name: gocore #name of container
+        image: gcr.io/williamscj-istio-demos/istio-routing-demo:v1 #gcr image
+        imagePullPolicy: Always #IfNotPresent
+        ports:
+        - containerPort: 8080
